@@ -1,5 +1,7 @@
 import os
 import sys
+import urllib.error
+
 sys.path.insert(1, os.path.abspath('Code'))
 sys.path.insert(1, os.path.abspath('Code/Server'))
 sys.path.insert(1, os.path.abspath('Code/Server/HTML Divisions'))
@@ -15,46 +17,62 @@ from Code.Server import Server
 # Please DO NOT leave this section on debug mode while pushing the code!!
 
 # Choice between:
-# 'Server Data'(default), 'Groups-Debug', 'Attacks-Debug', 'Attacks(Date)-Debug'
-file_data = 'Groups-Debug'
+# 'Server Data' (default), 'Groups-Debug', 'Attacks-Debug', 'Attacks(Date)-Debug'
+file_data = 'Server Data'
+# 'Server Data' (default), 'Debug Data'
+Connections_data = 'Debug Data'
 
 
 # Get the user screen size to set the map size #
 user32 = ctypes.windll.user32
 screensize = user32.GetSystemMetrics(0) - 100, user32.GetSystemMetrics(1) - 150
 
-if file_data == 'Groups-Debug':
-    # Example to reading only groups database by country #
-    print('\nYou are using', "\033[91m {}\033[00m".format('DEBUG DATA !'))
+try:
+    if file_data == 'Groups-Debug':
+        # Example to reading only groups database by country #
+        print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
 
-    attacks_data = pd.read_csv('D:/Or Hasan/Continuously BU - Personal/Fojects/Python/Projects'
-                               '/DataVisualization/Data/Debug_Data - Groups Only.csv', encoding='unicode_escape')
+        attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Groups Only.csv', encoding='unicode_escape')
 
-elif file_data == 'Attacks-Debug':
-    # Example to reading attacks database without dates #
-    print('\nYou are using', "\033[91m {}\033[00m".format('DEBUG DATA !'))
+    elif file_data == 'Attacks-Debug':
+        # Example to reading attacks database without dates #
+        print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
 
-    attacks_data = pd.read_csv('D:/Or Hasan/Continuously BU - Personal/Fojects/Python/Projects'
-                               '/DataVisualization/Data/Debug_Data - Attacks.csv')
+        attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Attacks.csv')
 
-elif file_data == 'Attacks(Date)-Debug':
-    # Example to reading attacks database with dates #
-    print('\nYou are using', "\033[91m {}\033[00m".format('DEBUG DATA !'))
+    elif file_data == 'Attacks(Date)-Debug':
+        # Example to reading attacks database with dates #
+        print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
 
-    attacks_data = pd.read_csv('D:/Or Hasan/Continuously BU - Personal/Fojects/Python/Projects'
-                               '/DataVisualization/Data/Debug_Data - Attacks+Dates.csv')
+        attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Attacks+Dates.csv')
 
-else:
-    # Read server database, which can be in one of the forms of the options above #
-    import sys
-    print("\n\033[91m {}\033[00m".format('MISSING CODE PART !'))
-    sys.exit()
+    else:
+        # Read server database, which can be in one of the forms of the options above #
+            data_url = 'https://drive.google.com/file/d/1v_72gej13Zt1qur-COx38Dtdagl8ELnw/view?usp=sharing'
+            data_file = 'https://drive.google.com/uc?id=' + data_url.split('/')[-2]
+            attacks_data = pd.read_csv(data_file, encoding='unicode_escape')
+            # attacks_data = pd.read_csv('https://drive.proton.me/urls/S6PMA6JKGR#ISZLhZRIx1We', encoding='unicode_escape')
 
+# Show an Error in case of missing local debug file or the cloud data file and terminate the program #
+except (FileNotFoundError, urllib.error.HTTPError):
+    print("\n\033[41m {}\033[00m".format('ERROR'), "\033[91m {}\033[00m".format('\'' + file_data + '\' DATA file cannot be found !'))
+    sys.exit(1)
 
 # Read groups connection map #
-# connections = pd.DataFrame()
-connections = pd.read_csv('D:\Or Hasan\Continuously BU - Personal\Fojects\Python\Projects'
-                          '\DataVisualization\Data\Debug_Data - Groups Connections.csv')
+try:
+    if Connections_data == 'Debug Data':
+        print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG CONNECTIONS DATA !'))
+        connections_file = os.path.abspath('Data') + '\Debug_Data - Groups Connections.csv'
+        connections = pd.read_csv(connections_file)
+    else:
+        # The Connections file is still not exist #
+        connections_url = 'https://drive.google.com/file/d/????????????????????????????????????????????/view?usp=sharing'
+        connections_file = 'https://drive.google.com/uc?id=' + connections_url.split('/')[-2]
+        connections = pd.read_csv(connections_file)
+
+except (FileNotFoundError, urllib.error.HTTPError):
+    print("\n\033[41m {}\033[00m".format('ERROR'), "\033[91m {}\033[00m".format('\'' + Connections_data + '\' CONNECTIONS file cannot be found !'))
+    connections = pd.DataFrame()
 
 # Check the type of the imported file #
 # data_by_attacks = True - Database of the groups without the attacks amount
@@ -77,8 +95,7 @@ date_animation = "Date" in attacks_data.columns
 
 
 # # Get the country codes #
-# country_codes = pd.read_csv('D:\Or Hasan\Continuously BU - Personal\Fojects\Python\Projects'
-#                             '\DataVisualization\Data\Country Codes.csv', sep=",")
+# country_codes = pd.read_csv(os.path.abspath('Data') + '\Country Codes.csv', sep=",")
 # x = 0
 # country_code = [0 for i in range(len(attacks_data.index))]
 #

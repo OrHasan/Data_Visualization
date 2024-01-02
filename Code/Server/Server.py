@@ -79,6 +79,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
                                                 color_axis, data_by_attacks)
         return fig, store_data
 
+    # Choice the graph type #
     app.callback(
         Output('choropleth', 'style'),
         Output('bars', 'style'),
@@ -108,6 +109,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
     #     # return text
     #     # return f"active:{slider['active']} value:{pos_name}"
 
+    # TEST #
     @app.callback(
         Output('whichframe', 'children', allow_duplicate=True),
         Output('choropleth', 'figure', allow_duplicate=True),
@@ -136,14 +138,17 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
     if not connections.empty:
         @app.callback(
             Output('choropleth', 'figure'),
+            Output("Country_Info_Popup", "is_open"),
+            Output("modal-body", "children"),
             Input('choropleth', 'clickData'),
             State('choropleth', 'figure'),
             State('UI_Visibility', 'data'),
+            State("Country_Info_Popup", "is_open"),
             prevent_initial_call=True)
-        def update_figure(click_data, fig, store_data):
-            fig, _, _ = Event.update_figure(click_data, fig, store_data, connections, screensize,
-                                            color_axis, data_by_attacks, False)
-            return fig
+        def update_figure(click_data, fig, store_data, is_open):
+            fig, is_open, modal_body = Event.update_figure(click_data, fig, store_data, connections, screensize,
+                                                           color_axis, data_by_attacks, is_open)
+            return fig, is_open, modal_body
             # return get_figure(selections)
 
     else:
@@ -162,6 +167,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
             return is_open, modal_body
             # return get_figure(selections)
 
+    # Choice the visible Tab #
     app.callback(
         Output('UI_Visibility', 'data', allow_duplicate=True),
         Output('Update_Database', 'children'),
@@ -175,6 +181,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
     #     store_data, button_text, Map_display, Update_display = Event.update_tab(n_clicks, store_data)
     #     return store_data, button_text, Map_display, Update_display
 
+    # Change visible elements in Update Database tab while changing the dropdown value #
     app.callback(
         Output('Show_Data', 'style'),
         Output('New_Country', 'style'),
@@ -190,6 +197,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
     #
     #     return Show_Data_display, New_Country_display, New_Groups_display, store_data
 
+    # Change visible elements in Update Database tab while changing the country #
     app.callback(
         Output('Show_Group', 'options'),
         Output('Show_Group', 'value'),

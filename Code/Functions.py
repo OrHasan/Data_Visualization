@@ -48,7 +48,7 @@ def create_map(attacks_data, map_style, screensize, color_axis, date_animation, 
                 "Country": False,
                 "Attacks ": ": ,d",
                 # "Frequency ": ": ,d",
-                "Groups ": True,
+                "Groups ": False,
             }
 
         else:
@@ -56,7 +56,7 @@ def create_map(attacks_data, map_style, screensize, color_axis, date_animation, 
                 "Country": False,
                 "Attacks ": ": ,d",
                 # "Frequency ": ": ,d",
-                "Groups ": True,
+                "Groups ": False,
             }
     else:
         hover_data = {
