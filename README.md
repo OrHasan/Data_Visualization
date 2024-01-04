@@ -5,7 +5,7 @@
 
 <br />
 
-[![Project UI Screenshot][Project-UI]]
+![Project UI Screenshot][Project-UI]
 
 ## Debug
 The first lines of the code inside "main" are been used for loading debug example data files.
