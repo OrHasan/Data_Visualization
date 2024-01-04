@@ -3,9 +3,33 @@
   Data visualization for the attacking groups locations around the world. Can show the amount of groups from each country OR the amount of the attacks (or other numeral data) from each country, with dates for a timeline or without
 </div>
 
+[!NOTE]
+If there is a need to show numeral data other than "attacks", a little code change will be required as it searching for now for the title "Attacks"
+
 <br />
 
 ![Project UI Screenshot][Project-UI]
+
+
+## UI
+Map Style: Choice the visual style of the world map
+* 2D
+* 3D
+Map Style: Choice the displayed data view
+* Map View
+* Bars View
+
+[!NOTE]
+Refers to the center dropdown list. This text typo needs to be fixed!
+
+Selected Data: Switch between world map view by date or a single frame summary view
+* By Date
+* Summarized
+  
+[!NOTE]  
+"By Date" option is only available with database that contains numeral data + dates
+
+
 
 
 ## Debug
