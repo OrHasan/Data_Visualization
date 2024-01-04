@@ -1,6 +1,6 @@
 from dash import html
 # - - - - - - - - - - - - - - -
-from Code import Functions as Func
+from Code import functions as func
 
 
 def init(attacks_data):
@@ -22,11 +22,11 @@ def change_map_style(map_style, fig, store_data, screensize, color_axis, data_by
     if store_data['map_animation']:
         slider = fig['layout']['sliders'][0]
 
-    fig, _, _ = Func.create_map(map_current_data, store_data['map_current_style'], screensize, color_axis,
+    fig, _, _ = func.create_map(map_current_data, store_data['map_current_style'], screensize, color_axis,
                                 store_data['map_animation'], data_by_attacks)
 
     if store_data['map_animation']:
-        Func.change_frame(fig, slider)
+        func.change_frame(fig, slider)
 
     return fig, store_data
 
@@ -44,11 +44,11 @@ def change_map_data(map_data, fig, store_data, attacks_data, attacks_sum, screen
             map_current_data = attacks_data
             store_data['map_animation'] = True
 
-    fig, _, _ = Func.create_map(map_current_data, store_data['map_current_style'], screensize, color_axis,
+    fig, _, _ = func.create_map(map_current_data, store_data['map_current_style'], screensize, color_axis,
                                 store_data['map_animation'], data_by_attacks)
 
     if store_data['map_animation']:
-        Func.change_frame(fig, '', attacks_data["Date "].index[len(set(attacks_data["Date "]))-1],
+        func.change_frame(fig, '', attacks_data["Date "].index[len(set(attacks_data["Date "])) - 1],
                           list(set(attacks_data["Date "]))[-1])
 
     return fig, store_data
@@ -84,7 +84,7 @@ def change_figure(data_view, fig):
 #     try:
 #         if slider_last_pos != slider_pos:
 #             print("changed")
-#             # fig = Func.create_map(map_current_data, store_data['map_current_style'],
+#             # fig = func.create_map(map_current_data, store_data['map_current_style'],
 #             #                       screensize, color_axis, store_data['map_animation'])
 #             slider_last_pos = slider_pos
 #             return "changed"
@@ -94,14 +94,14 @@ def change_figure(data_view, fig):
 #         return no_update
 #
 #     # pos_name = slider['steps'][slider['active']]['args'][0][0]
-#     # Func.change_frame(fig, slider_pos, )
+#     # func.change_frame(fig, slider_pos, )
 #     # return slider, pos_name
 
 
 def init_connections(n_intervals, fig, store_data, screensize, color_axis, data_by_attacks):
     global map_current_data
     print("updated")
-    fig, _, _ = Func.create_map(map_current_data, store_data['map_current_style'], screensize, color_axis,
+    fig, _, _ = func.create_map(map_current_data, store_data['map_current_style'], screensize, color_axis,
                                 store_data['map_animation'], data_by_attacks)
     return ""
 
@@ -111,7 +111,7 @@ def init_connections(n_intervals, fig, store_data, screensize, color_axis, data_
 #     print(relayout_data)
 #     # if 'slider' in relayout_data:
 #     #     print("yay")
-#     # fig = Func.create_map(map_current_data, store_data['map_current_style'],
+#     # fig = func.create_map(map_current_data, store_data['map_current_style'],
 #     #                       screensize, color_axis, store_data['map_animation'])
 #     # return fig
 
@@ -123,14 +123,14 @@ def update_figure(click_data, fig, store_data, connections, screensize, color_ax
         if store_data['map_animation']:
             slider = fig['layout']['sliders'][0]
 
-        fig, groups_index, _ = Func.create_map(map_current_data, store_data['map_current_style'], screensize,
+        fig, groups_index, _ = func.create_map(map_current_data, store_data['map_current_style'], screensize,
                                                color_axis, store_data['map_animation'], data_by_attacks)
 
         location = click_data['points'][0]['location']
         location_groups = click_data['points'][0]['customdata'][groups_index]
         if not connections.empty:
             _, selections_connections, connections_countries, connections_countries_without_self =\
-                Func.check_connections(location, location_groups.split(", "), map_current_data, connections)
+                func.check_connections(location, location_groups.split(", "), map_current_data, connections)
 
     #     # # Add countries for multi-country selection #
     #     # if location not in selections:
@@ -154,11 +154,11 @@ def update_figure(click_data, fig, store_data, connections, screensize, color_ax
             if connections_countries_without_self[0] != '(none)':
                 for connect_location in connections_countries_without_self:
                     if connect_location != '(no info)':
-                        Func.show_connections(fig, [location, connect_location])
+                        func.show_connections(fig, [location, connect_location])
                         print([location, connect_location])
 
         if store_data['map_animation']:
-            Func.change_frame(fig, slider)
+            func.change_frame(fig, slider)
         # fig.layout.sliders[0].active = attacks_data["Date "].index[slider_pos]
         # print(is_open)
         is_open = not is_open
@@ -184,16 +184,16 @@ def update_tab(n_clicks, store_data):
     if store_data['Tab'] == 'Show_Map':
         store_data['Tab'] = 'Update_DB'
         button_text = 'Return to Map View'
-        Map_display = {'display': 'none'}
-        Update_display = {'display': 'flex'}
+        map_display = {'display': 'none'}
+        update_display = {'display': 'flex'}
 
     else:
         store_data['Tab'] = 'Show_Map'
         button_text = 'Update Database Page'
-        Map_display = {'display': 'block'}
-        Update_display = {'display': 'none'}
+        map_display = {'display': 'block'}
+        update_display = {'display': 'none'}
 
-    return store_data, button_text, Map_display, Update_display
+    return store_data, button_text, map_display, update_display
 
 
 def toggle_dropdown(selected_option, store_data):
@@ -202,27 +202,27 @@ def toggle_dropdown(selected_option, store_data):
             store_data['Show_Data_Visible'] = True
             store_data['New_Country_Visible'] = False
             store_data['New_Groups_Visible'] = False
-            Show_Data_display = {'display': 'block'}
-            New_Country_display = {'display': 'none'}
-            New_Groups_display = {'display': 'none'}
+            show_data_display = {'display': 'block'}
+            new_country_display = {'display': 'none'}
+            new_groups_display = {'display': 'none'}
 
         case 'Add Country':
             store_data['Show_Data_Visible'] = False
             store_data['New_Country_Visible'] = True
             store_data['New_Groups_Visible'] = False
-            Show_Data_display = {'display': 'none'}
-            New_Country_display = {'display': 'block'}
-            New_Groups_display = {'display': 'none'}
+            show_data_display = {'display': 'none'}
+            new_country_display = {'display': 'block'}
+            new_groups_display = {'display': 'none'}
 
         case 'Add Groups':
             store_data['Show_Data_Visible'] = False
             store_data['New_Country_Visible'] = False
             store_data['New_Groups_Visible'] = True
-            Show_Data_display = {'display': 'none'}
-            New_Country_display = {'display': 'none'}
-            New_Groups_display = {'display': 'block'}
+            show_data_display = {'display': 'none'}
+            new_country_display = {'display': 'none'}
+            new_groups_display = {'display': 'block'}
 
-    return Show_Data_display, New_Country_display, New_Groups_display, store_data
+    return show_data_display, new_country_display, new_groups_display, store_data
 
 
 def update_groups(selected_country):

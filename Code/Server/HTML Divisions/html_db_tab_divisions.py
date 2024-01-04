@@ -1,6 +1,6 @@
 from dash import dcc, html
 # - - - - - - - - - - - - - - -
-from Code import Functions as Func
+from Code import functions as func
 
 
 def show_data(attacks_data, connections):
@@ -29,12 +29,12 @@ def show_data(attacks_data, connections):
 
         html.Br(),
         html.H4(children='Map Database'),
-        Func.generate_table(attacks_data),
+        func.generate_table(attacks_data),
 
         html.Div(children=[
             html.Br(),
             html.H4(children='Map Database'),
-            Func.generate_table(connections) if not connections.empty else None
+            func.generate_table(connections) if not connections.empty else None
         ], style={'display': 'block' if not connections.empty else 'none'})
 
     ], style={'padding': 10, 'display': 'block'}, id='Show_Data')
@@ -53,7 +53,7 @@ def new_country(attacks_data):
 
         html.Br(),
         html.H4(children='Map Database'),
-        Func.generate_table(attacks_data),
+        func.generate_table(attacks_data),
     ], style={'padding': 20, 'display': 'none'}, id='New_Country')
 
 
@@ -71,7 +71,7 @@ def new_groups(connections):
         html.Div(children=[
             html.Br(),
             html.H4(children='Map Database'),
-            Func.generate_table(connections) if not connections.empty else None
+            func.generate_table(connections) if not connections.empty else None
         ], style={'display': 'block' if not connections.empty else 'none'})
 
     ], style={'padding': 20, 'display': 'none'}, id='New_Groups')

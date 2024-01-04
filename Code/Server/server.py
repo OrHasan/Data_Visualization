@@ -2,13 +2,13 @@ from dash import Dash, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 # - - - - - - - - - - - - - - -
-import HTML_Graphs_Divisions as Graph_Division
-import HTML_DBTab_Divisions as DBTab_Division
-import Event_Listener as Event
+import html_graphs_divisions as graph_division
+import html_db_tab_divisions as db_tab_division
+import event_listener as event
 
 
 def set_server(attacks_data, fig, bars_fig, connections, date_animation):
-    Event.init(attacks_data)
+    event.init(attacks_data)
 
     app = Dash(__name__)
 
@@ -44,8 +44,8 @@ def set_server(attacks_data, fig, bars_fig, connections, date_animation):
                     style={'font-size': 12.5, 'width': 100}),
                     # style={'display': 'flex', 'margin': '0 auto'}),
 
-        Graph_Division.map_view(fig, bars_fig, date_animation),
-        DBTab_Division.db_update(attacks_data, connections, date_animation)
+        graph_division.map_view(fig, bars_fig, date_animation),
+        db_tab_division.db_update(attacks_data, connections, date_animation)
     ])
 
     return app
@@ -62,7 +62,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         prevent_initial_call=True
     )
     def change_map_style(map_style, fig, store_data):
-        fig, store_data = Event.change_map_style(map_style, fig, store_data, screensize, color_axis, data_by_attacks)
+        fig, store_data = event.change_map_style(map_style, fig, store_data, screensize, color_axis, data_by_attacks)
         return fig, store_data
 
     # Choice between Timeline & Summary map visuality #
@@ -75,7 +75,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         prevent_initial_call=True
     )
     def change_map_data(map_data, fig, store_data):
-        fig, store_data = Event.change_map_data(map_data, fig, store_data, attacks_data, attacks_sum, screensize,
+        fig, store_data = event.change_map_data(map_data, fig, store_data, attacks_data, attacks_sum, screensize,
                                                 color_axis, data_by_attacks)
         return fig, store_data
 
@@ -89,9 +89,9 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         State('choropleth', 'figure'),
         # State('UI_Visibility', 'data'),
         prevent_initial_call=True
-    )(Event.change_figure)
+    )(event.change_figure)
     # def change_figure(data_view, fig):
-    #     map_display, bars_display, fig = Event.change_figure(data_view, fig)
+    #     map_display, bars_display, fig = event.change_figure(data_view, fig)
     #     return map_display, bars_display, fig    #, store_data
 
     # # core update of figure on change of dash slider #
@@ -104,8 +104,8 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
     #     prevent_initial_call=True
     # )
     # def set_frame(n_intervals, fig, store_data):
-    #     text = Event.set_frame(n_intervals, fig, store_data, screensize, color_axis)
-    #     slider, pos_name = Event.set_frame(n_intervals, fig, store_data, screensize, color_axis)
+    #     text = event.set_frame(n_intervals, fig, store_data, screensize, color_axis)
+    #     slider, pos_name = event.set_frame(n_intervals, fig, store_data, screensize, color_axis)
     #     # return text
     #     # return f"active:{slider['active']} value:{pos_name}"
 
@@ -119,7 +119,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         prevent_initial_call=True
     )
     def init_connections(n_intervals, fig, store_data):
-        Event.init_connections(n_intervals, fig, store_data, screensize, color_axis, data_by_attacks)
+        event.init_connections(n_intervals, fig, store_data, screensize, color_axis, data_by_attacks)
         return ""
 
     # @app.callback(
@@ -131,7 +131,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
     #     prevent_initial_call=True
     # )
     # def set_frame(relayout_data, store_data):
-    #     fig = Event.set_frame(relayout_data, store_data, screensize, color_axis)
+    #     fig = event.set_frame(relayout_data, store_data, screensize, color_axis)
     #     # return fig
 
     # Click event - country selection #
@@ -146,7 +146,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
             State("Country_Info_Popup", "is_open"),
             prevent_initial_call=True)
         def update_figure(click_data, fig, store_data, is_open):
-            fig, is_open, modal_body = Event.update_figure(click_data, fig, store_data, connections, screensize,
+            fig, is_open, modal_body = event.update_figure(click_data, fig, store_data, connections, screensize,
                                                            color_axis, data_by_attacks, is_open)
             return fig, is_open, modal_body
             # return get_figure(selections)
@@ -161,7 +161,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
             State("Country_Info_Popup", "is_open"),
             prevent_initial_call=True)
         def update_figure(click_data, fig, store_data, is_open):
-            _, is_open, modal_body = Event.update_figure(click_data, fig, store_data, connections, screensize,
+            _, is_open, modal_body = event.update_figure(click_data, fig, store_data, connections, screensize,
                                                          color_axis, data_by_attacks, is_open)
             # print(is_open)
             return is_open, modal_body
@@ -176,9 +176,9 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         Input('Update_Database', 'n_clicks'),
         State('UI_Visibility', 'data'),
         prevent_initial_call=True
-    )(Event.update_tab)
+    )(event.update_tab)
     # def update_tab(n_clicks, store_data):
-    #     store_data, button_text, Map_display, Update_display = Event.update_tab(n_clicks, store_data)
+    #     store_data, button_text, Map_display, Update_display = event.update_tab(n_clicks, store_data)
     #     return store_data, button_text, Map_display, Update_display
 
     # Change visible elements in Update Database tab while changing the dropdown value #
@@ -190,9 +190,9 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         Input('UI_State', 'value'),
         State('UI_Visibility', 'data'),
         prevent_initial_call=True
-    )(Event.toggle_dropdown)
+    )(event.toggle_dropdown)
     # def toggle_dropdown(selected_option, store_data):
-    #     Show_Data_display, New_Country_display, New_Groups_display, store_data = Event.toggle_dropdown(selected_option,
+    #     Show_Data_display, New_Country_display, New_Groups_display, store_data = event.toggle_dropdown(selected_option,
     #                                                                                                    store_data)
     #
     #     return Show_Data_display, New_Country_display, New_Groups_display, store_data
@@ -205,7 +205,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         # Output('Show_Connections', 'value'),
         Input('Show_Country', 'value'),
         prevent_initial_call=True
-    )(Event.update_groups)
+    )(event.update_groups)
     # def update_groups(selected_country):
-    #     groups_options, groups_value = Event.update_groups(selected_country)
+    #     groups_options, groups_value = event.update_groups(selected_country)
     #     return groups_options, groups_value

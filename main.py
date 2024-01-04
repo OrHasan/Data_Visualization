@@ -9,8 +9,8 @@ sys.path.insert(1, os.path.abspath('Code/Server/HTML Divisions'))
 import ctypes
 import pandas as pd
 # - - - - - - - - - - - - - - -
-from Code import Functions as Func
-from Code.Server import Server
+from Code import functions as func
+from Code.Server import server
 
 
 # Debug Section #
@@ -20,7 +20,7 @@ from Code.Server import Server
 # 'Server Data' (default), 'Groups-Debug', 'Attacks-Debug', 'Attacks(Date)-Debug'
 file_data = 'Server Data'
 # 'Server Data' (default), 'Debug Data'
-Connections_data = 'Debug Data'
+connections_data = 'Debug Data'
 
 
 # Get the user screen size to set the map size #
@@ -60,7 +60,7 @@ except (FileNotFoundError, urllib.error.HTTPError):
 
 # Read groups connection map #
 try:
-    if Connections_data == 'Debug Data':
+    if connections_data == 'Debug Data':
         print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG CONNECTIONS DATA !'))
         connections_file = os.path.abspath('Data') + '\Debug_Data - Groups Connections.csv'
         connections = pd.read_csv(connections_file)
@@ -71,7 +71,7 @@ try:
         connections = pd.read_csv(connections_file)
 
 except (FileNotFoundError, urllib.error.HTTPError):
-    print("\n\033[41m {}\033[00m".format('ERROR'), "\033[91m {}\033[00m".format('\'' + Connections_data + '\' CONNECTIONS file cannot be found !'))
+    print("\n\033[41m {}\033[00m".format('ERROR'), "\033[91m {}\033[00m".format('\'' + connections_data + '\' CONNECTIONS file cannot be found !'))
     connections = pd.DataFrame()
 
 # Check the type of the imported file #
@@ -143,15 +143,15 @@ else:
     attacks_sum = ""
 
 color_axis = f"coloraxis{2}"
-fig, _, bars_fig = Func.create_map(attacks_data, map_style, screensize, color_axis, date_animation, data_by_attacks)
+fig, _, bars_fig = func.create_map(attacks_data, map_style, screensize, color_axis, date_animation, data_by_attacks)
 
 if date_animation:
-    Func.change_frame(fig, '', attacks_data["Date "].index[len(set(attacks_data["Date "]))-1],
+    func.change_frame(fig, '', attacks_data["Date "].index[len(set(attacks_data["Date "])) - 1],
                       list(set(attacks_data["Date "]))[-1])
 
 # Set the server and define events listeners #
-app = Server.set_server(attacks_data, fig, bars_fig, connections, date_animation)
-Server.events(app, attacks_data, attacks_sum, screensize, color_axis, connections, data_by_attacks)
+app = server.set_server(attacks_data, fig, bars_fig, connections, date_animation)
+server.events(app, attacks_data, attacks_sum, screensize, color_axis, connections, data_by_attacks)
 
 app.run(debug=True)
 # app.run_server(mode='inline')   #, debug=True)
