@@ -7,6 +7,7 @@
 
 ![Project UI Screenshot][Project-UI]
 
+
 ## Debug
 The first lines of the code inside "main" are been used for loading debug example data files.
 
@@ -20,4 +21,16 @@ file_data = 'Server Data'
 connections_data = 'Server Data'
 ```
 
+<br />
+
+Also, in the last line of "main" there is an option to choice to run the server on debug mode as well.
+
+When running the server in debug mode, all changes that will be made in the code will also update in the browser when he will be in focus. Also, there will be error monitoring and more debug features from inside the UI (blue circle in the buttom right).
+
+```py
+app.run(debug=True)
+```
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
 [Project-UI]: Pictures/DataVisualization_UI.png
