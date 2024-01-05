@@ -1,14 +1,12 @@
 import os
 import sys
+import ctypes
+import pandas as pd
 import urllib.error
-
+# - - - - - - - - - - - - - - -
 sys.path.insert(1, os.path.abspath('Code'))
 sys.path.insert(1, os.path.abspath('Code/Server'))
 sys.path.insert(1, os.path.abspath('Code/Server/HTML Divisions'))
-
-import ctypes
-import pandas as pd
-# - - - - - - - - - - - - - - -
 from Code import functions as func
 from Code.Server import server
 
@@ -20,7 +18,7 @@ from Code.Server import server
 # 'Server Data' (default), 'Groups-Debug', 'Attacks-Debug', 'Attacks(Date)-Debug'
 file_data = 'Server Data'
 # 'Server Data' (default), 'Debug Data'
-connections_data = 'Debug Data'
+connections_data = 'Server Data'
 
 
 # Get the user screen size to set the map size #

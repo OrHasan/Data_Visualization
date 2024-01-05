@@ -74,11 +74,20 @@ def create_map(attacks_data, map_style, screensize, color_axis, date_animation, 
                                 hover_data=hover_data, projection=map_style, animation_frame='Date ',
                                 title=graph_title, locationmode='country names', color_continuous_scale=colors_type,
                                 height=screensize[1]-150)   #.update_traces(visible=False, coloraxis=color_axis)
+
+        # bars_fig = pl_exp.bar(attacks_data, x="Country", y=color_data, color='Groups ', animation_frame='Date ',
+        #                       hover_data=hover_data)
+        bars_fig = pl_exp.bar(attacks_data, x="Country", y=color_data, color=color_data,
+                              hover_data=hover_data)  # pattern_shape='Groups ' , pattern_shape_sequence=[".", "x", "+"])
+
     else:
         fig = pl_exp.choropleth(attacks_data, locations='Country', color=color_data, hover_name='Country',
                                 hover_data=hover_data, projection=map_style,
                                 title=graph_title, locationmode='country names', color_continuous_scale=colors_type,
-                                height=screensize[1]-150)  # .update_traces(visible=False, coloraxis=color_axis)
+                                height=screensize[1]-150)
+
+        bars_fig = pl_exp.bar(attacks_data, x="Country", y=color_data, color=color_data,
+                              hover_data=hover_data)
 
     # else:
     #     fig = pl_exp.choropleth(attacks_data, locations='Country', color=color_data, hover_name='Country',
@@ -87,9 +96,6 @@ def create_map(attacks_data, map_style, screensize, color_axis, date_animation, 
     #                             height=screensize[1] - 100)  # .update_traces(visible=False, coloraxis=color_axis)
 
     # fig.update_layout(coloraxis_showscale=False)
-
-    bars_fig = pl_exp.bar(attacks_data, x="Country", y=color_data, color=color_data,
-                          pattern_shape="Groups ")     #, pattern_shape_sequence=[".", "x", "+"])
 
     # Settings for the color map index like: settings his minimum & maximum values and adding a title above it #
     fig = fig.update_layout(

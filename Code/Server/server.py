@@ -2,12 +2,16 @@ from dash import Dash, html
 from dash.dependencies import Input, Output, State
 import dash_bootstrap_components as dbc
 # - - - - - - - - - - - - - - -
+# please ignore if the IDE marks the 2 following lines as missing, there paths are loaded in "main.py"
 import html_graphs_divisions as graph_division
 import html_db_tab_divisions as db_tab_division
 import event_listener as event
 
 
 def set_server(attacks_data, fig, bars_fig, connections, date_animation):
+    global map_dropdown_style
+    map_dropdown_style = {'width': '13%', 'margin': '0 auto', 'textAlign': 'center'}
+
     event.init(attacks_data)
 
     app = Dash(__name__)
@@ -44,7 +48,7 @@ def set_server(attacks_data, fig, bars_fig, connections, date_animation):
                     style={'font-size': 12.5, 'width': 100}),
                     # style={'display': 'flex', 'margin': '0 auto'}),
 
-        graph_division.map_view(fig, bars_fig, date_animation),
+        graph_division.map_view(fig, bars_fig, date_animation, map_dropdown_style),
         db_tab_division.db_update(attacks_data, connections, date_animation)
     ])
 
@@ -80,7 +84,9 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         return fig, store_data
 
     # Choice the graph type #
-    app.callback(
+    @app.callback(
+        Output('map_style_display', 'style'),
+        Output('map_data_display', 'style'),
         Output('choropleth', 'style'),
         Output('bars', 'style'),
         Output('choropleth', 'figure', allow_duplicate=True),
@@ -89,7 +95,13 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         State('choropleth', 'figure'),
         # State('UI_Visibility', 'data'),
         prevent_initial_call=True
-    )(event.change_figure)
+    )
+    def figure_type(data_view, fig):
+        global map_dropdown_style
+        map_style_dropdown, map_data_dropdown, map_display, bars_display, fig =\
+            event.change_figure(data_view, fig, map_dropdown_style)
+        return map_style_dropdown, map_data_dropdown, map_display, bars_display, fig
+
     # def change_figure(data_view, fig):
     #     map_display, bars_display, fig = event.change_figure(data_view, fig)
     #     return map_display, bars_display, fig    #, store_data

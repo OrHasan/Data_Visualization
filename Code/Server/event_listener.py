@@ -54,12 +54,14 @@ def change_map_data(map_data, fig, store_data, attacks_data, attacks_sum, screen
     return fig, store_data
 
 
-def change_figure(data_view, fig):
+def change_figure(data_view, fig, map_dropdown_style):
     # global map_current_data
 
     match data_view:
         case 'Bars View':
             # store_data['data_view'] = False
+            map_style_dropdown = {'display': 'none'}
+            map_data_dropdown = {'display': 'none'}
             map_display = {'display': 'none'}
             bars_display = {'display': 'block'}
             # fig['layout']['coloraxis']['colorbar']['visible'] = False
@@ -67,12 +69,14 @@ def change_figure(data_view, fig):
 
         case other:
             # store_data['data_view'] = True
+            map_style_dropdown = map_dropdown_style
+            map_data_dropdown = map_dropdown_style
             map_display = {'display': 'block'}
             bars_display = {'display': 'none'}
             # fig['layout']['coloraxis']['colorbar']['visible'] = True
             # fig.update_layout(coloraxis_showscale=False)
 
-    return map_display, bars_display, fig    #, store_data
+    return map_style_dropdown, map_data_dropdown, map_display, bars_display, fig    #, store_data
 
 
 # # core update of figure on change of dash slider #
