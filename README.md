@@ -36,6 +36,9 @@
 > [!NOTE]
 > Refers to the center dropdown list. This text typo needs to be fixed!
 
+> [!NOTE]
+> The Bars View data is still in work
+
 <br />
 
 **Selected Data**: Switch between world map view by date or a single frame summary view
@@ -44,6 +47,21 @@
 
 > [!NOTE]
 > "By Date" option is only available with database that contains numeral data + dates
+
+<br />
+
+<h3> Map Interaction </h3>
+
+**Mouse Hover**: Allows to see additional info on each country like: Country Name, Number of Attacks/Groups, Date of Data (if available)
+
+**Mouse Click**: Opens popup with a list of all the attack groups from the selected country.
+
+There is additional data that will be printed in the python terminal for debug, like: Selected Country Name, Attack Groups in the country, Other Groups that are Connected to those country groups
+
+Also, if connections database file is available, a connection lines between countries will be added in accordance to the connections of different groups
+
+> [!NOTE]
+> The popup sometimes doesn't opens and instead the data is printed below the map. This bug reason requires more invastigation
 
 
 ## Debug
