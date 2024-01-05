@@ -29,15 +29,9 @@
 
 <br />
 
-**Map Style**: Choice the displayed data view
+**Graph Type**: Choice the displayed data view
 * Map View
 * Bars View
-
-> [!NOTE]
-> Refers to the center dropdown list. This text typo needs to be fixed!
-
-> [!NOTE]
-> The Bars View data is still in work
 
 <br />
 
