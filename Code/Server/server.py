@@ -14,8 +14,9 @@ def set_server(attacks_data, fig, bars_fig, connections, date_animation):
 
     event.init(attacks_data)
 
-    app = Dash(__name__)
+    app = Dash('__main__')
 
+    # app.layout.children.append(html.Div([
     app.layout = html.Div([
         # # Add drop-list #
         # dcc.Dropdown(
