@@ -54,9 +54,6 @@ There is additional data that will be printed in the python terminal for debug, 
 
 Also, if connections database file is available, a connection lines between countries will be added in accordance to the connections of different groups
 
-> [!NOTE]
-> The popup sometimes doesn't opens and instead the data is printed below the map. This bug reason requires more invastigation
-
 
 ## Debug
 The first lines of the code inside "main" are been used for loading debug example data files.
