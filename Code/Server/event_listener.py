@@ -121,6 +121,7 @@ def init_connections(n_intervals, fig, store_data, screensize, color_axis, data_
 
 # Click event - country selection #
 def update_figure(click_data, fig, store_data, connections, screensize, color_axis, data_by_attacks, is_open):
+    modal_title = ""
     modal_body = ""
 
     if click_data is not None:
@@ -175,11 +176,12 @@ def update_figure(click_data, fig, store_data, connections, screensize, color_ax
     #     case other:
     #         fig.layout.sliders[0].active = attacks_data["Date "].index[0]
 
+        modal_title = location + " Attack Groups"
         modal_body = html.Table([html.Tr(html.Td(item)) for item in map_current_data['Groups '][
                                  map_current_data[map_current_data['Country'] == location]
                                 .index.tolist()[0]].split(', ')])
 
-    return fig, is_open, modal_body
+    return fig, is_open, modal_title, modal_body
 
     # return get_figure(selections)
 

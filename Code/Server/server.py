@@ -30,7 +30,7 @@ def set_server(attacks_data, fig, bars_fig, connections, date_animation):
 
         dbc.Modal(
             [
-                dbc.ModalHeader(dbc.ModalTitle("Attack Groups")),
+                dbc.ModalHeader(dbc.ModalTitle(id="modal-title")),
                 dbc.ModalBody(id="modal-body"),
                 # dbc.ModalFooter(
                 #     dbc.Button(
@@ -152,6 +152,7 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
         @app.callback(
             Output('choropleth', 'figure'),
             Output("Country_Info_Popup", "is_open"),
+            Output("modal-title", "children"),
             Output("modal-body", "children"),
             Input('choropleth', 'clickData'),
             State('choropleth', 'figure'),
@@ -159,14 +160,16 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
             State("Country_Info_Popup", "is_open"),
             prevent_initial_call=True)
         def update_figure(click_data, fig, store_data, is_open):
-            fig, is_open, modal_body = event.update_figure(click_data, fig, store_data, connections, screensize,
-                                                           color_axis, data_by_attacks, is_open)
-            return fig, is_open, modal_body
+            fig, is_open, modal_title, modal_body = event.update_figure(click_data, fig, store_data, connections,
+                                                                        screensize, color_axis, data_by_attacks,
+                                                                        is_open)
+            return fig, is_open, modal_title, modal_body
             # return get_figure(selections)
 
     else:
         @app.callback(
             Output("Country_Info_Popup", "is_open"),
+            Output("modal-title", "children"),
             Output("modal-body", "children"),
             Input('choropleth', 'clickData'),
             State('choropleth', 'figure'),
@@ -174,10 +177,11 @@ def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, 
             State("Country_Info_Popup", "is_open"),
             prevent_initial_call=True)
         def update_figure(click_data, fig, store_data, is_open):
-            _, is_open, modal_body = event.update_figure(click_data, fig, store_data, connections, screensize,
-                                                         color_axis, data_by_attacks, is_open)
+            _, is_open, modal_title, modal_body = event.update_figure(click_data, fig, store_data, connections,
+                                                                      screensize, color_axis, data_by_attacks,
+                                                                      is_open)
             # print(is_open)
-            return is_open, modal_body
+            return is_open, modal_title, modal_body
             # return get_figure(selections)
 
     # Choice the visible Tab #
