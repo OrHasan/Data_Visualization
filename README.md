@@ -10,7 +10,11 @@
 
 <br />
 
+<div align="center">
+  
 ![Project UI Screenshot][Project-UI]
+
+</div>
 
 
 ## UI
