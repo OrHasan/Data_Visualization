@@ -7,70 +7,38 @@ import urllib.error
 sys.path.insert(1, os.path.abspath('Code'))
 sys.path.insert(1, os.path.abspath('Code/Server'))
 sys.path.insert(1, os.path.abspath('Code/Server/HTML Divisions'))
-from Code import functions as func
+# Don't change the following import code order,
+# as it important to load "mysql.connector" before the "dash" library (otherwise, error code "0xC0000005" will rise)
+from Code import sql_connection as sql_con, SQL_Functions as sql_func, csv_handler, functions as func
 from Code.Server import server
 
 
 # Debug Section #
 # Please DO NOT leave this section on debug mode while pushing the code!!
 
+# debug only works with csv combination (local pre-made file)
+debug = {
+    "attacks": True,
+    "connections": True
+}
+debug = None
 # Choice between:
-# 'Server Data' (default), 'Groups-Debug', 'Attacks-Debug', 'Attacks(Date)-Debug'
-file_data = 'Server Data'
-# 'Server Data' (default), 'Debug Data'
-connections_data = 'Server Data'
+# 'local' (default), 'Server Data', 'SQL Data'
+location = 'SQL Data'
+# 'Groups', 'Attacks', 'Attacks(Date)'
+file_data = 'Attacks(Date)'
+# 'SQL Data' (default), 'Server Data', 'Debug Data'
+# connections_data = 'SQL Data'
+connections_data = location
 
 
 # Get the user screen size to set the map size #
 user32 = ctypes.windll.user32
 screensize = user32.GetSystemMetrics(0) - 100, user32.GetSystemMetrics(1) - 150
 
-try:
-    if file_data == 'Groups-Debug':
-        # Example to reading only groups database by country #
-        print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
+attacks_data, db, my_cursor = csv_handler.extract_attacks_data(file_data, debug)
+connections = csv_handler.extract_connections_data(file_data, my_cursor, debug)
 
-        attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Groups Only.csv', encoding='unicode_escape')
-
-    elif file_data == 'Attacks-Debug':
-        # Example to reading attacks database without dates #
-        print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
-
-        attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Attacks.csv')
-
-    elif file_data == 'Attacks(Date)-Debug':
-        # Example to reading attacks database with dates #
-        print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
-
-        attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Attacks+Dates.csv')
-
-    else:
-        # Read server database, which can be in one of the forms of the options above #
-            data_url = 'https://drive.google.com/file/d/1v_72gej13Zt1qur-COx38Dtdagl8ELnw/view?usp=sharing'
-            data_file = 'https://drive.google.com/uc?id=' + data_url.split('/')[-2]
-            attacks_data = pd.read_csv(data_file, encoding='unicode_escape')
-            # attacks_data = pd.read_csv('https://drive.proton.me/urls/S6PMA6JKGR#ISZLhZRIx1We', encoding='unicode_escape')
-
-# Show an Error in case of missing local debug file or the cloud data file and terminate the program #
-except (FileNotFoundError, urllib.error.HTTPError):
-    print("\n\033[41m {}\033[00m".format('ERROR'), "\033[91m {}\033[00m".format('\'' + file_data + '\' DATA file cannot be found !'))
-    sys.exit(1)
-
-# Read groups connection map #
-try:
-    if connections_data == 'Debug Data':
-        print("\n\033[43m {}\033[00m".format('WARNING'), 'You are using', "\033[33m {}\033[00m".format('DEBUG CONNECTIONS DATA !'))
-        connections_file = os.path.abspath('Data') + '\Debug_Data - Groups Connections.csv'
-        connections = pd.read_csv(connections_file)
-    else:
-        # The Connections file is still not exist #
-        connections_url = 'https://drive.google.com/file/d/????????????????????????????????????????????/view?usp=sharing'
-        connections_file = 'https://drive.google.com/uc?id=' + connections_url.split('/')[-2]
-        connections = pd.read_csv(connections_file)
-
-except (FileNotFoundError, urllib.error.HTTPError):
-    print("\n\033[41m {}\033[00m".format('ERROR'), "\033[91m {}\033[00m".format('\'' + connections_data + '\' CONNECTIONS file cannot be found !'))
-    connections = pd.DataFrame()
 
 # Check the type of the imported file #
 # data_by_attacks = True - Database of the groups without the attacks amount
@@ -153,3 +121,6 @@ server.events(app, attacks_data, attacks_sum, screensize, color_axis, connection
 
 app.run(debug=True)
 # app.run_server(mode='inline')   #, debug=True)
+
+if file_data == 'SQL Data':
+    sql_con.close(db, my_cursor)
