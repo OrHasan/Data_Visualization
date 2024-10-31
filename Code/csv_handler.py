@@ -3,11 +3,10 @@ import sys
 import pandas as pd
 import urllib.error
 # - - - - - - - - - - - - - - -
-from Code import sql_connection as sql_con, SQL_Functions as sql_func
+from Code import SQL_Functions as sql_func
 
 
-def extract_attacks_data(file_data, debug=False):
-    my_cursor, db = '', ''
+def extract_attacks_data(data_location, my_cursor, file_data='Attacks(Date)', debug=False):
     if not debug:
         debug = {
             "attacks": False,
@@ -39,7 +38,7 @@ def extract_attacks_data(file_data, debug=False):
                 attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Attacks+Dates.csv')
 
         else:
-            if file_data == 'Server Data':
+            if data_location == 'Drive':
                 # Read server database, which can be in one of the forms of the options above #
                 data_url = 'https://drive.google.com/file/d/1v_72gej13Zt1qur-COx38Dtdagl8ELnw/view?usp=sharing'
                 data_file = 'https://drive.google.com/uc?id=' + data_url.split('/')[-2]
@@ -47,17 +46,10 @@ def extract_attacks_data(file_data, debug=False):
                 # attacks_data = pd.read_csv('https://drive.proton.me/urls/S6PMA6JKGR#ISZLhZRIx1We',
                 #                            encoding='unicode_escape')
 
-            else:   # default: 'SQL Data'
-                host_name = input("Please enter the SQL Host Name (default: 'localhost'): ")
-                host_name = 'localhost' if not host_name else host_name
-                user_name = input("Please enter the SQL User Name (default: 'root'): ")
-                user_name = 'root' if not user_name else user_name
-                password = input("Please enter the SQL Password: ")
-
-                db, my_cursor = sql_con.connect(password, host_name, user_name)
+            else:   # default: 'SQL'
                 attacks_data, _ = sql_func.show_table_data(my_cursor, 'attacks')
 
-        return attacks_data, db, my_cursor
+        return attacks_data
 
 
     # Show an Error in case of missing local debug file or the cloud data file and terminate the program #
@@ -67,7 +59,7 @@ def extract_attacks_data(file_data, debug=False):
         sys.exit(1)
 
 
-def extract_connections_data(file_data, my_cursor, debug=False):
+def extract_connections_data(data_location, my_cursor, debug=False):
     # Read groups connection map #
     if not debug:
         debug = {
@@ -81,7 +73,7 @@ def extract_connections_data(file_data, my_cursor, debug=False):
             connections_file = os.path.abspath('Data') + '\Debug_Data - Groups Connections.csv'
             connections = pd.read_csv(connections_file)
 
-        elif file_data == 'Server Data':
+        elif data_location == 'Drive':
             # The Connections file is still not exist #
             connections_url = 'https://drive.google.com/file/d/????????????????????????????????????????????/view?usp=sharing'
             connections_file = 'https://drive.google.com/uc?id=' + connections_url.split('/')[-2]
