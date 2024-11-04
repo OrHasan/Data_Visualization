@@ -20,7 +20,7 @@ def extract_attacks_data(data_location, my_cursor, file_data='Attacks(Date)', de
                 print("\n\033[43m {}\033[00m".format('WARNING'),
                       'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
 
-                attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Groups Only.csv',
+                attacks_data = pd.read_csv(os.path.abspath('Data') + '/Debug_Data - Groups Only.csv',
                                            encoding='unicode_escape')
 
             elif file_data == 'Attacks':
@@ -28,26 +28,28 @@ def extract_attacks_data(data_location, my_cursor, file_data='Attacks(Date)', de
                 print("\n\033[43m {}\033[00m".format('WARNING'),
                       'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
 
-                attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Attacks.csv')
+                attacks_data = pd.read_csv(os.path.abspath('Data') + '/Debug_Data - Attacks.csv')
 
             else:   # default: 'Attacks(Date)':
                 # Example to reading attacks database with dates #
                 print("\n\033[43m {}\033[00m".format('WARNING'),
                       'You are using', "\033[33m {}\033[00m".format('DEBUG DATA !'))
 
-                attacks_data = pd.read_csv(os.path.abspath('Data') + '\Debug_Data - Attacks+Dates.csv')
+                attacks_data = pd.read_csv(os.path.abspath('Data') + '/Debug_Data - Attacks+Dates.csv')
 
         else:
             if data_location == 'Drive':
                 # Read server database, which can be in one of the forms of the options above #
-                data_url = 'https://drive.google.com/file/d/1v_72gej13Zt1qur-COx38Dtdagl8ELnw/view?usp=sharing'
+                data_url = 'https://drive.google.com/file/d/1ST2htkVfrnOSHiLD_gMOJyHC3upEOsQn/view?usp=sharing'
                 data_file = 'https://drive.google.com/uc?id=' + data_url.split('/')[-2]
                 attacks_data = pd.read_csv(data_file, encoding='unicode_escape')
-                # attacks_data = pd.read_csv('https://drive.proton.me/urls/S6PMA6JKGR#ISZLhZRIx1We',
-                #                            encoding='unicode_escape')
 
-            else:   # default: 'SQL'
+            elif data_location == 'SQL':
                 attacks_data, _ = sql_func.show_table_data(my_cursor, 'attacks')
+
+            else:   # default: 'Local'
+                attacks_data = pd.read_csv(os.path.abspath('Data') + '/Attacks+Dates.csv',
+                                           encoding='unicode_escape')
 
         return attacks_data
 
@@ -74,16 +76,22 @@ def extract_connections_data(data_location, my_cursor, debug=False):
             connections = pd.read_csv(connections_file)
 
         elif data_location == 'Drive':
-            # The Connections file is still not exist #
-            connections_url = 'https://drive.google.com/file/d/????????????????????????????????????????????/view?usp=sharing'
+            connections_url = 'https://drive.google.com/file/d/1Wm5h4HcCtuw3e9-mT6t-kEgEvGs2g4PL/view?usp=sharing'
             connections_file = 'https://drive.google.com/uc?id=' + connections_url.split('/')[-2]
             connections = pd.read_csv(connections_file)
 
-        else:   # default: 'SQL Data'
+        elif data_location == 'SQL':
             connections, _ = sql_func.show_table_data(my_cursor, 'groups_connections')
 
+        else:   # default: 'Local'
+            connections = pd.read_csv(os.path.abspath('Data') + '/Groups Connections.csv',
+                                      encoding='unicode_escape')
+
     except (FileNotFoundError, urllib.error.HTTPError):
-        print("\n\033[41m {}\033[00m".format('ERROR'), "\033[91m {}\033[00m".format('\'' + connections_data + '\' CONNECTIONS file cannot be found !'))
+        print("\n\033[41m {}\033[00m".format('ERROR'),
+              "\033[91m {}\033[00m".format('CONNECTIONS file cannot be found at the \''
+                                           + data_location + '\' location !'
+                                                             '\nThe program will proceed without this information'))
         connections = pd.DataFrame()
 
     return connections

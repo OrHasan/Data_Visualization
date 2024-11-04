@@ -1,28 +1,26 @@
 import os
 import sys
 import ctypes
-import pandas as pd
-import urllib.error
 # - - - - - - - - - - - - - - -
 sys.path.insert(1, os.path.abspath('Code'))
 sys.path.insert(1, os.path.abspath('Code/Server'))
 sys.path.insert(1, os.path.abspath('Code/Server/HTML Divisions'))
 # Don't change the following import code order,
 # as it important to load "mysql.connector" before the "dash" library (otherwise, error code "0xC0000005" will rise)
-from Code import user_run_parameters as user_params, sql_connection as sql_con, SQL_Functions as sql_func, csv_handler
+from Code import user_run_parameters as user_params, sql_connection as sql_con, csv_handler
 from Code import functions as func
 from Code.Server import server
 
 
 def build_map():
-    location, db, my_cursor, debug, debug_file_data = user_params.get_user_params()
+    db_location, db, my_cursor, debug, debug_file_data = user_params.get_user_params()
 
     # Get the user screen size to set the map size #
     user32 = ctypes.windll.user32
     screensize = user32.GetSystemMetrics(0) - 100, user32.GetSystemMetrics(1) - 150
 
-    attacks_data = csv_handler.extract_attacks_data(location, my_cursor, debug_file_data, debug)
-    connections = csv_handler.extract_connections_data(location, my_cursor, debug)
+    attacks_data = csv_handler.extract_attacks_data(db_location, my_cursor, debug_file_data, debug)
+    connections = csv_handler.extract_connections_data(db_location, my_cursor, debug)
 
 
     # Check the type of the imported file #
@@ -32,33 +30,6 @@ def build_map():
 
     # date_animation = True & data_by_attacks = True - Database with amount of attacks + Dates
     date_animation = "Date" in attacks_data.columns
-
-
-    # # create a list of all the attack groups without duplicates from different dates #
-    # attack_groups = []
-    # for country_groups in attacks_data["Attack Groups"]:
-    #     if str(country_groups) != 'nan':
-    #         attack_groups = list(set(attack_groups + country_groups.split(", ")))
-    # # print(attack_groups)
-    #
-    # check_connections_test = ["Brown Chickens", "Anti Israel", "NotIran", "WeAreWithSomeVeryLongNameThatLooksTough"]
-    # print(check_connections(check_connections_test))
-
-
-    # # Get the country codes #
-    # country_codes = pd.read_csv(os.path.abspath('Data') + '\Country Codes.csv', sep=",")
-    # x = 0
-    # country_code = [0 for i in range(len(attacks_data.index))]
-    #
-    # for Country in attacks_data["Country"]:
-    #     country_code[x] = country_codes[country_codes["Country"] == Country]["Alpha 3 Code"].item()
-    #     x = x+1
-
-    # print("Choice which data you want to see:\n"
-    #       "1. Amount of attacks by country\n"
-    #       "2. attack Frequency by country")
-    #
-    # # data_type = input()
 
     map_style = 'kavrayskiy7'
     # Rename the columns names inside the code (name with space are for visual reasons) #
@@ -101,10 +72,10 @@ def build_map():
                           list(set(attacks_data["Date "]))[-1])
 
     # Set the server and define events listeners #
-    app = server.set_server(attacks_data, fig, bars_fig, connections, date_animation)
+    app = server.set_server(attacks_data, fig, bars_fig, connections, date_animation, db_location)
     server.events(app, attacks_data, attacks_sum, screensize, color_axis, connections, data_by_attacks)
 
-    return app, location, db, my_cursor
+    return app, db_location, db, my_cursor
 
 
 app = ''

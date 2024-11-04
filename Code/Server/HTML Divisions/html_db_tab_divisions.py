@@ -28,12 +28,12 @@ def show_data(attacks_data, connections):
                      id='Show_Connections'),
 
         html.Br(),
-        html.H4(children='Map Database'),
+        html.H4(children='Attacks Database'),
         func.generate_table(attacks_data),
 
         html.Div(children=[
             html.Br(),
-            html.H4(children='Map Database'),
+            html.H4(children='Connections Database'),
             func.generate_table(connections) if not connections.empty else None
         ], style={'display': 'block' if not connections.empty else 'none'})
 
@@ -52,7 +52,7 @@ def new_country(attacks_data):
         dcc.Input(type='text'),
 
         html.Br(),
-        html.H4(children='Map Database'),
+        html.H4(children='Attacks Database'),
         func.generate_table(attacks_data),
     ], style={'padding': 20, 'display': 'none'}, id='New_Country')
 
@@ -70,7 +70,7 @@ def new_groups(connections):
 
         html.Div(children=[
             html.Br(),
-            html.H4(children='Map Database'),
+            html.H4(children='Connections Database'),
             func.generate_table(connections) if not connections.empty else None
         ], style={'display': 'block' if not connections.empty else 'none'})
 
@@ -93,12 +93,12 @@ def threat_level():
                    },
             value=2,
             dots=True,
-            tooltip={"placement": "bottom", "always_visible": True}
+            tooltip={"placement": "bottom", "always_visible": False}
         ),
     ], style={'padding': 10, 'flex': 1})
 
 
-def db_update(attacks_data, connections, date_animation):
+def db_update(attacks_data, connections, date_animation, db_location):
     return html.Div(children=[
         # html.Div(children=[
         dcc.Store(id='UI_Visibility',
@@ -111,6 +111,10 @@ def db_update(attacks_data, connections, date_animation):
                         }),
 
         html.Div(children=[
+            html.H5(f'Database in use: {db_location}'),
+            html.Br(),
+            html.H5('This page is temporary disabled as to new databases options been recently added'),
+            html.Br(),
             html.Label('Function'),
             dcc.RadioItems(options=[
                 {'label': 'Show Data by Country', 'value': 'Show Data'},
@@ -133,6 +137,4 @@ def db_update(attacks_data, connections, date_animation):
         ], style={'padding': 10, 'flex': 3}),
 
         threat_level()
-
-        # ], style={'display': 'flex', 'flexDirection': 'row'})
     ], style={'display': 'none', 'flexDirection': 'row'}, id='Update_DB')

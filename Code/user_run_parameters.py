@@ -4,7 +4,7 @@ from Code import sql_connection as sql_con
 
 
 def get_user_params():
-    location = ''
+    db_location = ''
     my_cursor, db = '', ''
     debug_file_data = ''
     # debug only works with csv combination (local pre-made file)
@@ -17,25 +17,29 @@ def get_user_params():
     for i in range(5):
         match int(debug_mode):
             case 1:
+                print("(Debug files in use: None)\n")
                 debug = {
                     "attacks": False,
                     "connections": False
                 }
                 break
             case 2:
+                print("(Debug file in use: Attacks Data)\n")
                 debug = {
                     "attacks": True,
                     "connections": False
                 }
                 break
             case 3:
+                print("(Debug file in use: Connections Data)\n")
                 debug = {
                     "attacks": False,
                     "connections": True
                 }
                 break
             case 4:
-                location = "local"
+                print("(Debug files in use: All)\n")
+                db_location = "local"
                 debug = {
                     "attacks": True,
                     "connections": True
@@ -61,12 +65,15 @@ def get_user_params():
         for i in range(5):
             match int(debug_data):
                 case 1:
+                    print("(Debug file type: Attacks + Dates)\n")
                     debug_file_data = 'Attacks(Date)'
                     break
                 case 2:
+                    print("(Debug file type: Attacks Only)\n")
                     debug_file_data = 'Attacks'
                     break
                 case 3:
+                    print("(Debug file type: Groups Only)\n")
                     debug_file_data = 'Groups'
                     break
                 case _:
@@ -80,7 +87,7 @@ def get_user_params():
                                                            ' please re-run the program'))
                         sys.exit(1)
 
-    if not location:
+    if not db_location:
         data_location = input("Please choose the real data location by the option number (1/2/3):"
                               "\n 1. Drive (cloud)"
                               "\n 2. MySQL"
@@ -90,14 +97,17 @@ def get_user_params():
         for i in range(5):
             match int(data_location):
                 case 1:
-                    location = "Drive"
+                    print("(Data location: Drive)\n")
+                    db_location = "Drive"
                     break
                 case 2:
-                    location = "SQL"
+                    print("(Data location: MySQL)\n")
+                    db_location = "SQL"
                     db, my_cursor = sql_con.connect()
                     break
                 case 3:
-                    location = "local"
+                    print("(Data location: Local)\n")
+                    db_location = "Local"
                     break
                 case _:
                     if i != 4:
@@ -111,4 +121,4 @@ def get_user_params():
                                                            ' please re-run the program'))
                         sys.exit(1)
 
-    return location, db, my_cursor, debug, debug_file_data
+    return db_location, db, my_cursor, debug, debug_file_data

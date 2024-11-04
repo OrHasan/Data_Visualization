@@ -9,7 +9,7 @@ def top_menu(date_animation, map_dropdown_style):
                          '2D',
                          clearable=False,
                          id='map_style'),
-        ], style=map_dropdown_style, id='map_style_display'),  # 'width': '7%'
+        ], style=map_dropdown_style, id='map_style_display'),
 
         html.Div(children=[
             html.Label('Graph Type'),
@@ -34,7 +34,6 @@ def map_view(fig, bars_fig, date_animation, map_dropdown_style):
     return html.Div(children=[
         top_menu(date_animation, map_dropdown_style),
 
-        # html.Div(children=[
         dcc.Loading(
             # Add the map-graph #
             dcc.Graph(
@@ -42,11 +41,7 @@ def map_view(fig, bars_fig, date_animation, map_dropdown_style):
                 figure=fig,
             ),
             type="graph",
-            # style={'flex-grow': '1', 'width': '90%', 'height': '100vh'}
-            # debug=True
         ),
-
-        # style={'flex-basis': '10%'}),
 
         # Add the bar-graph #
         dcc.Graph(

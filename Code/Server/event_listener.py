@@ -8,7 +8,6 @@ def init(attacks_data):
     map_current_data = attacks_data
 
 
-# def events(app, attacks_data, attacks_sum, screensize, color_axis, connections, data_by_attacks):
 def change_map_style(map_style, fig, store_data, screensize, color_axis, data_by_attacks):
     global map_current_data
 
@@ -59,47 +58,18 @@ def change_figure(data_view, fig, map_dropdown_style):
 
     match data_view:
         case 'Bars View':
-            # store_data['data_view'] = False
             map_style_dropdown = {'display': 'none'}
             map_data_dropdown = {'display': 'none'}
             map_display = {'display': 'none'}
             bars_display = {'display': 'block'}
-            # fig['layout']['coloraxis']['colorbar']['visible'] = False
-            # fig.update_layout(coloraxis_showscale=False)
 
         case other:
-            # store_data['data_view'] = True
             map_style_dropdown = map_dropdown_style
             map_data_dropdown = map_dropdown_style
             map_display = {'display': 'block'}
             bars_display = {'display': 'none'}
-            # fig['layout']['coloraxis']['colorbar']['visible'] = True
-            # fig.update_layout(coloraxis_showscale=False)
 
-    return map_style_dropdown, map_data_dropdown, map_display, bars_display, fig    #, store_data
-
-
-# # core update of figure on change of dash slider #
-# def set_frame(n_intervals, fig, store_data, screensize, color_axis):
-#     global slider_last_pos, map_current_data
-#     slider = fig['layout']['sliders'][0]
-#     slider_pos = slider['active']
-#
-#     try:
-#         if slider_last_pos != slider_pos:
-#             print("changed")
-#             # fig = func.create_map(map_current_data, store_data['map_current_style'],
-#             #                       screensize, color_axis, store_data['map_animation'])
-#             slider_last_pos = slider_pos
-#             return "changed"
-#
-#     except NameError:
-#         slider_last_pos = slider_pos
-#         return no_update
-#
-#     # pos_name = slider['steps'][slider['active']]['args'][0][0]
-#     # func.change_frame(fig, slider_pos, )
-#     # return slider, pos_name
+    return map_style_dropdown, map_data_dropdown, map_display, bars_display, fig
 
 
 def init_connections(n_intervals, fig, store_data, screensize, color_axis, data_by_attacks):
@@ -109,15 +79,6 @@ def init_connections(n_intervals, fig, store_data, screensize, color_axis, data_
                                 store_data['map_animation'], data_by_attacks)
     return ""
 
-
-# def set_frame(relayout_data, store_data, screensize, color_axis):
-#     global map_current_data
-#     print(relayout_data)
-#     # if 'slider' in relayout_data:
-#     #     print("yay")
-#     # fig = func.create_map(map_current_data, store_data['map_current_style'],
-#     #                       screensize, color_axis, store_data['map_animation'])
-#     # return fig
 
 # Click event - country selection #
 def update_figure(click_data, fig, store_data, connections, screensize, color_axis, data_by_attacks, is_open):
@@ -137,15 +98,6 @@ def update_figure(click_data, fig, store_data, connections, screensize, color_ax
             _, selections_connections, connections_countries, connections_countries_without_self =\
                 func.check_connections(location, location_groups.split(", "), map_current_data, connections)
 
-    #     # # Add countries for multi-country selection #
-    #     # if location not in selections:
-    #     #     selections.add(location)
-    #     # else:
-    #     #     selections.remove(location)
-    #     #
-    #     # if selections:
-    #     #     print("In the countries: ", ', '.join(selections))
-
         print("In the country: ", location)
         print("There are the following attack groups: ", location_groups)
 
@@ -164,17 +116,7 @@ def update_figure(click_data, fig, store_data, connections, screensize, color_ax
 
         if store_data['map_animation']:
             func.change_frame(fig, slider)
-        # fig.layout.sliders[0].active = attacks_data["Date "].index[slider_pos]
-        # print(is_open)
         is_open = not is_open
-        # print(is_open)
-    # match slider_pos:
-    #     case 0:
-    #         fig.layout.sliders[0].active = attacks_data["Date "].index[1]
-    #     case 1:
-    #         fig.layout.sliders[0].active = attacks_data["Date "].index[2]
-    #     case other:
-    #         fig.layout.sliders[0].active = attacks_data["Date "].index[0]
 
         modal_title = location + " Attack Groups"
         modal_body = html.Table([html.Tr(html.Td(item)) for item in map_current_data['Groups '][
@@ -182,8 +124,6 @@ def update_figure(click_data, fig, store_data, connections, screensize, color_ax
                                 .index.tolist()[0]].split(', ')])
 
     return fig, is_open, modal_title, modal_body
-
-    # return get_figure(selections)
 
 
 def update_tab(n_clicks, store_data):
@@ -195,7 +135,7 @@ def update_tab(n_clicks, store_data):
 
     else:
         store_data['Tab'] = 'Show_Map'
-        button_text = 'Update Database Page'
+        button_text = 'Change Database'
         map_display = {'display': 'block'}
         update_display = {'display': 'none'}
 
