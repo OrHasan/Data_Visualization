@@ -24,7 +24,7 @@
       <ul>
         <li><a href="#dropdown-lists">Dropdown Lists</a></li>
         <li><a href="#map-interaction">Map Interaction</a></li>
-        <li><a href="#change-database">Change Database</a></li>
+        <li><a href="#change-database-button">Change Database Button</a></li>
       </ul>
     </li>
     <li>
