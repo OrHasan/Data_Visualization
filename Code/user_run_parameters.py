@@ -56,7 +56,7 @@ def get_user_params():
                                                        ' please re-run the program'))
                     sys.exit(1)
 
-    if debug_mode == 2 or debug_mode == 4:
+    if int(debug_mode) == 2 or int(debug_mode) == 4:
         debug_data = input("Please choose debug attacks file to load by the option number (1/2/3):"
                            "\n 1. Attacks + Dates"
                            "\n 2. Attacks Only"
