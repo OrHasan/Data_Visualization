@@ -24,6 +24,7 @@
       <ul>
         <li><a href="#dropdown-lists">Dropdown Lists</a></li>
         <li><a href="#map-interaction">Map Interaction</a></li>
+        <li><a href="#change-database">Change Database</a></li>
       </ul>
     </li>
     <li>
@@ -57,20 +58,6 @@ If the user will select to not use the local debug files, he will be asked to ch
 
 <!-- UI -->
 ## UI
-**Change Database**: Edit the used database (local/drive/SQL) directly from the website
-
-> [!NOTE]
-> This is only a future feature preparation and still aren't functional (the update button will be disabled)
-
-<br />
-
-<div align="center">
-  
-![Edit Database Page][Edit-DB]
-
-</div>
-<br />
-
 ### Dropdown Lists
 **Map Style**: Choice the visual style of the world map
 * 2D
@@ -126,6 +113,22 @@ There is additional data that will be printed in the python terminal for debug, 
 Also, if connections database file is available, a connection lines between countries will be added in accordance to the connections of different groups.
 
 
+### Change Database Button
+Edit the used database (local/drive/SQL) directly from the website
+
+> [!NOTE]
+> This is only a future feature preparation and still aren't functional (the update button will be disabled)
+
+<br />
+
+<div align="center">
+  
+![Edit Database Page][Edit-DB]
+
+</div>
+<br />
+
+
 <!-- DEBUG -->
 ## Debug
 When choosing to use the debug pre-made attacks data, there will be a choice between 3 types of tables data that the program can deal with:
@@ -145,7 +148,7 @@ When choosing to use the debug pre-made attacks data, there will be a choice bet
 </div>
 <br />
 
-Also, there is in an option inside the code of "main.py" to run the server in debug mode if needed:
+Also, there is an option inside the code of "main.py" to run the server in debug mode if needed:
 
 ```py
 app.run(debug=True)
