@@ -154,7 +154,7 @@ def show_connections(fig, countries):
     )
 
 
-def change_frame(fig, slider, frame_number=np.NaN, frame_name=''):
+def change_frame(fig, slider, frame_number=np.nan, frame_name=''):
     if np.isnan(frame_number) or frame_name == '':
         frame_number = slider['active']
 
