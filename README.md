@@ -1,6 +1,7 @@
 <div align="center">
   <h2> Data_Visualization </h2>
-  <h5> Data visualization project that created after the 7.10, to show attacking groups locations around the world on Israeli websites and help cyber defence groups to draw different conclusions. Can show the amount of groups/attacks (or other numeral data) from each country, with/without dates for a timeline. The database can be read from a local csv/the cloud/SQL </h5>
+  <h5> Data visualization project created after the events of 7.10 to show attacking groups' locations around the world on Israeli websites. </h5>
+  <h5> This tool helps cyber defense groups draw different conclusions by displaying the amount of groups or attacks (or other numerical data) from each country, with or without dates for a timeline. The database can be read from a local CSV file, the cloud, or an SQL table </h5>
 </div>
 
 <br />
@@ -24,7 +25,7 @@
       <ul>
         <li><a href="#dropdown-lists">Dropdown Lists</a></li>
         <li><a href="#map-interaction">Map Interaction</a></li>
-        <li><a href="#change-database-button">Change Database Button</a></li>
+        <li><a href="#'change-database'-button">'Change Database' Button</a></li>
       </ul>
     </li>
     <li>
@@ -39,11 +40,11 @@
 
 <!-- DATABASE SELECTION -->
 ## Database Selection
-Right after the program starts running, the user will be asked to choice if to use real-data or debug data (see debug section).
-If the user will select to not use the local debug files, he will be asked to choose the database location:
+Right after the program starts running, the user will be asked to choose whether to use real data or debug data (see debug section).
+If the user selects not to use the local debug files, they will be asked to choose the database location:
 * Drive (cloud)
 * MySQL
-* Local csv (Attacks.csv & Groups Connections.csv files located at ./DataVisualization/Data/)
+* Local CSV (Attacks.csv & Groups Connections.csv files located at ./DataVisualization/Data/)
 
 
 <br />
@@ -59,7 +60,7 @@ If the user will select to not use the local debug files, he will be asked to ch
 <!-- UI -->
 ## UI
 ### Dropdown Lists
-**Map Style**: Choice the visual style of the world map
+**Map Style**: Choose the visual style of the world map
 * 2D
 * 3D
 
@@ -72,7 +73,7 @@ If the user will select to not use the local debug files, he will be asked to ch
 </div>
 <br />
 
-**Graph Type**: Choice the displayed data view
+**Graph Type**: Choose the displayed data view
 * Map View
 * Bars View
 
@@ -90,16 +91,22 @@ If the user will select to not use the local debug files, he will be asked to ch
 * Summarized
 
 > [!NOTE]
-> "By Date" option is only available with database that contains numeral data + dates
+> The "By Date" option is only available with databases that contain numeral data + dates
 
 <br />
 
 ### Map Interaction
-**Mouse Hover**: Allows to see additional info on each country like: Country Name, Number of Attacks/Groups, Date of Data (if available)
+**Mouse Hover**: Allows seeing additional info on each country like:
+* Country Name
+* Number of Attacks/Groups
+* Date of Data (if available)
 
 **Mouse Click**: Opens popup with a list of all the attack groups from the selected country
 
-There is additional data that will be printed in the python terminal for debug, like: Selected Country Name, Attack Groups in the country, Other Groups that are Connected to those country groups.
+Additional data will be printed in the python terminal for debugging, such as:
+* Selected Country Name
+* Attack Groups in the country
+* Other Groups that are Connected to those country groups
 
 <br />
 
@@ -110,14 +117,14 @@ There is additional data that will be printed in the python terminal for debug, 
 </div>
 <br />
 
-Also, if connections database file is available, a connection lines between countries will be added in accordance to the connections of different groups.
+If the connections database file is available, connection lines between countries will be added according to the connections of different groups.
 
 
-### Change Database Button
+### 'Change Database' Button
 Edit the used database (local/drive/SQL) directly from the website
 
 > [!NOTE]
-> This is only a future feature preparation and still aren't functional (the update button will be disabled)
+> This is only a future feature preparation and is not yet functional (the update button will be disabled)
 
 <br />
 
@@ -131,7 +138,7 @@ Edit the used database (local/drive/SQL) directly from the website
 
 <!-- DEBUG -->
 ## Debug
-When choosing to use the debug pre-made attacks data, there will be a choice between 3 types of tables data that the program can deal with:
+When choosing to use the debug pre-made attacks data, there will be a choice between three types of table data that the program can handle:
 * Attacks + Dates
 * Attacks Only
 * Groups Only
@@ -154,19 +161,19 @@ Also, there is an option inside the code of "main.py" to run the server in debug
 app.run(debug=True)
 ```
 
-When running the server in debug mode, all changes that will be made in the code will also update in the browser when he will be in focus. Also, there will be error monitoring and more debug features from inside the UI (blue circle in the buttom right).
+When running the server in debug mode, all changes made in the code will also update in the browser when it is in focus. Additionally, there will be error monitoring and more debug features from inside the UI (blue circle in the buttom right).
 
 > [!NOTE]
-> This browser debug feature isn't recommended anymore, as it will make the user database selection input to re-appear with every auto-refresh
+> This browser debug feature is not recommended anymore, as it will make the user database selection input reappear with every auto-refresh
 
 
 <!-- NOTES -->
 ## Notes
 > [!NOTE]
-> If there will be a future need to show numeral data other than "attacks", a little code change will be required as it searching for now for the title "Attacks"
+> If there is a future need to show numerical data other than "attacks", a small code change will be required as it currently searches for the title "Attacks"
 
 > [!NOTE]
-> Currently the code aren't dealing with SQL injections prevention. This will be solved on future updates
+> Currently, the code does not handle SQL injections prevention. This will be addressed in future updates
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
