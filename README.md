@@ -1,7 +1,7 @@
 <div align="center">
   <h2> Data_Visualization </h2>
-  <h5> Data visualization project created after the events of 7.10 to show attacking groups' locations around the world on Israeli websites. </h5>
-  <h5> This tool helps cyber defense groups draw different conclusions by displaying the amount of groups or attacks (or other numerical data) from each country, with or without dates for a timeline. The database can be read from a local CSV file, the cloud, or an SQL table </h5>
+  <h5> Data visualization tool to display attacks around the world by date and time on Israeli websites, aiding cyber defense groups in the analysis process after the events of 7.10 </h5>
+  <h5> Provided clear visual insights into attack patterns and origins, enhancing the ability to draw conclusions and respond effectively </h5>
 </div>
 
 <br />
